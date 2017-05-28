@@ -1,0 +1,146 @@
+﻿@model ShopConnection.SANPHAM
+
+@{
+    ViewBag.Title = "Sửa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var HinhAnhPhu = ViewBag.HinhAnhPhu as IEnumerable<ShopConnection.HINHANHSP>;
+}
+
+<div class="progressbar-heading grids-heading">
+    <h2>Sửa sản phẩm</h2>
+</div>
+
+<div class="panel panel-widget forms-panel col-sm-8" style="float:none;margin:auto;">
+    <div class="forms">
+        <div class="form-grids widget-shadow" data-example-id="basic-forms">
+            <div class="form-title">
+                <h4>Thông tin :</h4>
+            </div>
+            <div class="form-body">
+                @using (Html.BeginForm("Edit", "ProductMng", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <div class="gallery-grids">
+                            <div class="show-reel">
+                                <div class="col-md-6 agile-gallery-grid">
+                                    <div class="agile-gallery">
+                                        <img src="/Content/images/products/@(Model.HinhAnh)" alt="@(Model.HinhAnh)" />
+                                    </div>
+                                </div>
+                                @foreach (var img in HinhAnhPhu)
+                                {
+                                    <div class="col-md-3 agile-gallery-grid">
+                                        <div class="agile-gallery">
+                                            <img src="/Content/images/products/@(img.Ten)" alt="@(img.Ten)" />
+                                            <div class="agileits-caption">
+                                                <label class="form-control"><input type="checkbox" name="delHinhAnhPhu" value="@(img.Ten)" />  Xoá</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Ten, "Tên:")
+                        @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.Gia, "Giá bán:")
+                            @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.KhuyenMai, "Khuyến mãi (%):")
+                            @Html.EditorFor(model => model.KhuyenMai, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.Loai, "Thuộc loại:")
+                            @Html.DropDownListFor(x => x.Loai, null, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.NhaSX, "Nhà sản xuất:")
+                            @Html.DropDownListFor(x => x.NhaSX, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MoTa, "Mô tả:")
+                        <textarea name="Mota" rows="8" class="form-control">@(Model.MoTa ?? "")</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ThongTinThem, "Cấu hình:")
+                        <textarea name="ThongTinThem" id="ThongTinThem">@Html.Raw(Model.ThongTinThem)</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.SoThangBaoHanh, "Số tháng bảo hành:")
+                            @Html.EditorFor(model => model.SoThangBaoHanh, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.SoLuongTon, "Số lượng tồn:")
+                            @Html.EditorFor(model => model.SoLuongTon, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control" for="HinhAnhChinh">Hình ảnh chính:</label>
+                        <input type="file" name="HinhAnhChinh" class="img-upload" accept="image/*" />
+                        <input type="hidden" name="HinhAnh" value="@Model.HinhAnh" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control" for="HinhAnhPhu">Hình ảnh phụ:</label>
+                        <input type="file" name="HinhAnhPhu" class="img-upload" accept="image/*" multiple />
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LaSanPhamMoi, "Sản phẩm mới:")
+                        @Html.EditorFor(model => model.LaSanPhamMoi, null)
+                        <input type="hidden" value="false" name="LaSanPhamMoi" />
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LaSanPhamHot, "Sản phẩm nổi bật:")
+                        @Html.EditorFor(model => model.LaSanPhamHot, null )
+                        <input type="hidden" value="false" name="LaSanPhamHot" />
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Khoa, "Khoá sản phẩm:")
+                        @Html.EditorFor(model => model.Khoa, null)
+                        <input type="hidden" value="false" name="Khoa" />
+                    </div>
+
+                    <button type="submit" class="btn btn-default w3ls-button">Sửa</button>
+                }
+            </div>
+            <table class="editpanel">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Content/plugins/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('ThongTinThem');
+    $(window).load(function () {
+        $.fn.lightspeedBox();
+    });
+</script>

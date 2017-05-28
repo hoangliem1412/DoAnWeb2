@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ShopConnection.SANPHAM>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-4 col-sm-6">
+        <div class="products">
+            <div class="product">
+                <div class="product-micro">
+                    <div class="row product-micro-row">
+
+                        <div class="col col-xs-6">
+                            <div class="product-image">
+                                <div class="image">
+                                    <a title="@item.Ten" href="/Content/images/products/md1.jpg" data-lightbox="image-1" data-title="Nunc ullamcors">
+                                        <img class="img-responsive" data-echo="/Content/images/products/@item.HinhAnh" src="/Content/images/blank.gif" alt="@item.Ten">
+                                        <div class="zoom-overlay"></div>
+                                    </a>
+                                </div><!-- /.image -->
+                            </div><!-- /.product-image -->
+                        </div><!-- /.col -->
+
+                        <div class="col col-xs-6">
+                            <div class="product-info">
+                                <div class="product-name-box"><h3 class="name"><a href="@Url.Action("Index","Product",new {id=item.ID})" title="@item.Ten">@item.Ten</a></h3></div>
+                                <div class="rateit" data-rateit-value="@item.SoSao" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                                <div class="product-price">
+                                    <span class="price">
+                                        @(item.KhuyenMai != 0 ? (item.Gia * (1 - item.KhuyenMai / 100)).ToString("N0") : item.Gia.ToString("N0"))đ
+                                    </span>
+                                </div><!-- /.product-price -->
+                                <div class="action m-t-10"><a href="#" class="lnk btn btn-primary">Thêm</a></div>
+                            </div>
+                        </div><!-- /.col -->
+
+                    </div><!-- /.product-micro-row -->
+                </div><!-- /.product-micro -->
+            </div>
+        </div>
+    </div>
+}

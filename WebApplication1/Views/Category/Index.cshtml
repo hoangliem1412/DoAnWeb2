@@ -1,0 +1,314 @@
+﻿@model PetaPoco.Page<ShopConnection.SANPHAM>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+    var ChiTiet = ViewBag.ChiTiet;
+    var DSLsp = ViewBag.DSLsp as List<ShopConnection.LOAISANPHAM>;
+    var parent = DSLsp.Where(lsp => lsp.Parent == null);
+    IEnumerable<ShopConnection.LOAISANPHAM> childs;
+    var DSNsx = ViewBag.DSNsx as IEnumerable<ShopConnection.NHASANXUAT>;
+    int range = 2;
+    int current = 0;
+    int i = 0;
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline list-unstyled">
+                <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                <li class='active'>@ChiTiet.Ten</li>
+            </ul>
+        </div><!-- /.breadcrumb-inner -->
+    </div><!-- /.container -->
+</div><!-- /.breadcrumb -->
+
+<div class="body-content outer-top-xs">
+    <div class='container'>
+        <div class="homepage-container">
+            <div class='row outer-bottom-sm'>
+                <div class='col-md-3 sidebar'>
+                    <div class="sidebar-module-container">
+                        <h3 class="section-title">Mua theo</h3>
+                        <div class="sidebar-filter">
+
+                            <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
+                            <div class="sidebar-widget wow fadeInUp outer-bottom-xs ">
+                                <div class="widget-header m-t-20">
+                                    <h4 class="widget-title">Loại</h4>
+                                </div>
+                                <div class="sidebar-widget-body m-t-10">
+                                    <div class="accordion">
+                                    @{i = 1;}
+                                    @foreach (var item in parent)
+                                    {
+                                        childs = DSLsp.Where(lsp => lsp.Parent == item.ID);
+                                        <div class="accordion-group">
+                                            <div class="accordion-heading">
+                                                <a href="#collapse@(i)" data-toggle="collapse" class="accordion-toggle collapsed">@item.Ten</a>
+                                            </div><!-- /.accordion-heading -->
+                                            <div class="accordion-body collapse" id="collapse@(i)" style="height: 0px;">
+                                                <div class="accordion-inner">
+                                                    <ul>
+                                                        @foreach (var child in childs)
+                                                        {
+                                                            <li><a href="@Url.Action("Index", "Category", new { id = child.ID })">@child.Ten</a></li>
+                                                        }
+                                                        <li><a href="@Url.Action("Index", "Category", new { id = item.ID })">Tất cả</a></li>
+                                                    </ul>
+                                                </div><!-- /.accordion-inner -->
+                                            </div><!-- /.accordion-body -->
+                                        </div><!-- /.accordion-group -->
+                                        i++;
+                                    }
+                                    </div><!-- /.accordion -->
+                                </div><!-- /.sidebar-widget-body -->
+                            </div><!-- /.sidebar-widget -->
+                            <!-- ============================================== SIDEBAR CATEGORY : END ============================================== -->
+
+                            <!-- ============================================== PRICE SILDER============================================== -->
+                            <div class="sidebar-widget outer-bottom-xs wow fadeInUp">
+                                <div class="widget-header">
+                                    <h4 class="widget-title">Giá</h4>
+                                </div>
+                                <div class="sidebar-widget-body m-t-20">
+                                    <div class="price-range-holder">
+                                        <span class="min-max">
+                                            <span class="pull-left">200k</span>
+                                            <span class="pull-right">800k</span>
+                                        </span>
+                                        <input type="text" id="amount" style="border:0; color:#666666; font-weight:bold;text-align:center;">
+                                        <input type="text" class="price-slider" value="">
+
+                                    </div><!-- /.price-range-holder -->
+                                    <a href="#" class="lnk btn btn-primary">Show Now</a>
+                                </div><!-- /.sidebar-widget-body -->
+                            </div><!-- /.sidebar-widget -->
+                            <!-- ============================================== PRICE SILDER : END ============================================== -->
+                            
+                            <!-- ============================================== MANUFACTURES============================================== -->
+                            <div class="sidebar-widget outer-bottom-xs wow fadeInUp">
+                                <div class="widget-header">
+                                    <h4 class="widget-title">Nhà sản xuất</h4>
+                                </div>
+                                <div class="sidebar-widget-body m-t-10">
+                                    <ul class="list">
+                                        @foreach (var item in DSNsx)
+                                        {
+                                            <li><a href="#">@item.Ten</a></li>
+                                        }
+                                    </ul>
+                                    <!--<a href="#" class="lnk btn btn-primary">Show Now</a>-->
+                                </div><!-- /.sidebar-widget-body -->
+                            </div><!-- /.sidebar-widget -->
+                            <!-- ============================================== MANUFACTURES: END ============================================== -->
+                            
+                            <!-- ============================================== COMPARE============================================== -->
+                            <div class="sidebar-widget wow fadeInUp">
+                                <h3 class="section-title">So sánh</h3>
+                                <div class="sidebar-widget-body">
+                                    <div class="compare-report">
+                                        <p>You have no <span>item(s)</span> to compare</p>
+                                    </div><!-- /.compare-report -->
+                                </div><!-- /.sidebar-widget-body -->
+                            </div><!-- /.sidebar-widget -->
+                            <!-- ============================================== COMPARE: END ============================================== -->
+                            
+                            <!-- ============================================== PRODUCT TAGS ============================================== -->
+                            <div class="sidebar-widget product-tag wow fadeInUp">
+                                <h3 class="section-title">Tag phổ biến</h3>
+                                <div class="sidebar-widget-body outer-top-xs">
+                                    <div class="tag-list">
+                                        <a class="item" title="Phone" href="category.html">Phone</a>
+                                        <a class="item active" title="Vest" href="category.html">Vest</a>
+                                        <a class="item" title="Smartphone" href="category.html">Smartphone</a>
+                                        <a class="item" title="Furniture" href="category.html">Furniture</a>
+                                        <a class="item" title="T-shirt" href="category.html">T-shirt</a>
+                                        <a class="item" title="Sweatpants" href="category.html">Sweatpants</a>
+                                        <a class="item" title="Sneaker" href="category.html">Sneaker</a>
+                                        <a class="item" title="Toys" href="category.html">Toys</a>
+                                        <a class="item" title="Rose" href="category.html">Rose</a>
+                                    </div><!-- /.tag-list -->
+                                </div><!-- /.sidebar-widget-body -->
+                            </div><!-- /.sidebar-widget -->
+                            <!-- ============================================== PRODUCT TAGS : END ============================================== -->
+                        
+                            <!-- ============================================== COLOR============================================== -->                            
+                            <div class="sidebar-widget  wow fadeInUp outer-top-vs ">
+                                <div id="advertisement" class="advertisement">
+                                    <div class="item bg-color">
+                                        <div class="container-fluid">
+                                            <div class="caption vertical-top text-left">
+                                                <div class="big-text">
+                                                    Save<span class="big">50%</span>
+                                                </div>
+
+                                                <div class="excerpt">
+                                                    on selected items
+                                                </div>
+                                            </div><!-- /.caption -->
+                                        </div><!-- /.container-fluid -->
+                                    </div><!-- /.item -->
+                                    <div class="item" style="background-image: url('/Content/images/advertisement/1.jpg');">
+
+                                    </div><!-- /.item -->
+                                    <div class="item bg-color">
+                                        <div class="container-fluid">
+                                            <div class="caption vertical-top text-left">
+                                                <div class="big-text">
+                                                    Save<span class="big">50%</span>
+                                                </div>
+
+                                                <div class="excerpt fadeInDown-2">
+                                                    on selected items
+                                                </div>
+                                            </div><!-- /.caption -->
+                                        </div><!-- /.container-fluid -->
+                                    </div><!-- /.item -->
+                                </div><!-- /.owl-carousel -->
+                            </div>
+                            <!-- ============================================== COLOR: END ============================================== -->
+                        </div><!-- /.sidebar-filter -->
+                    </div><!-- /.sidebar-modile-container -->
+                </div><!-- /.sidebar -->
+
+                <div class='col-md-9'>
+                    <!-- ========================================== SECTION – HERO ========================================= -->
+                    <div id="category" class="category-carousel hidden-xs">
+                        <div class="item">
+                            <div class="image">
+                                <img src="/Content/images/banners/fashion.jpg" alt="" class="img-responsive">
+                            </div>
+                            <div class="container-fluid">
+                                <div class="caption vertical-top text-left">
+                                    <div class="big-text">
+                                        Sale
+                                    </div>
+                                    <div class="excerpt hidden-sm hidden-md">
+                                        up to 50% off
+                                    </div>
+
+                                </div><!-- /.caption -->
+                            </div><!-- /.container-fluid -->
+                        </div>
+                    </div>
+                    <!-- ========================================= SECTION – HERO : END ========================================= -->
+
+                    <div class="clearfix filters-container m-t-10">
+                        <div class="row">
+                            <div class="col col-sm-12 col-md-6">
+                                <div class="no-padding">
+                                    <div class="lbl-cnt">
+                                        <span class="lbl">Sắp xếp theo</span>
+                                        <div class="fld inline">
+                                            <div class="dropdown dropdown-small dropdown-med dropdown-white inline">
+                                                <button data-toggle="dropdown" type="button" class="btn dropdown-toggle">
+                                                    Giá<span class="caret"></span>
+                                                </button>
+                                                <ul role="menu" class="dropdown-menu">
+                                                    <li role="presentation"><a href="#">Giá: Cao đến thấp</a></li>
+                                                    <li role="presentation"><a href="#">Giá: Thấp đến cao</a></li>
+                                                    <li role="presentation"><a href="#">Tên: A - Z</a></li>
+                                                    <li role="presentation"><a href="#">Tên: Z - A</a></li>
+                                                </ul>
+                                            </div>
+                                        </div><!-- /.fld -->
+                                    </div><!-- /.lbl-cnt -->
+                                </div><!-- /.col -->
+                            </div><!-- /.col -->
+                            <div class="col col-sm-6 col-md-6 text-right">
+                                <div class="pagination-container">
+                                    <ul class="list-inline list-unstyled">
+                                        @{
+                                        if (Model.CurrentPage > range + 1)
+                                        {
+                                            <li class="prev"><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = 1})"><i class="fa">Trang đầu</i></a></li>
+                                        }
+
+                                        current = (int)Model.CurrentPage - range;
+                                        if (current <= 0)
+                                        {
+                                            current = 1;
+                                        }
+
+                                        for (i = current; i <= Model.CurrentPage + range && i <= Model.TotalPages; i++)
+                                        {
+                                            if (i == Model.CurrentPage)
+                                            {
+                                                <li class="active"><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = i})">@i</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = i})">@i</a></li>
+                                            }
+                                        }
+
+                                        if (Model.CurrentPage < Model.TotalPages - range)
+                                        {
+                                            <li class="next"><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = Model.TotalPages})"><i class="fa">Trang cuối</i></a></li>
+                                        }
+                                        }
+                                    </ul><!-- /.list-inline -->
+                                </div><!-- /.pagination-container -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div>
+
+                    <div class="search-result-container">
+
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane active" id="grid-container">
+                                <div class="category-product  inner-top-vs">
+                                    <div class="row">
+                                        @Html.Partial("~/Views/Shared/PartialProductCarouselS.cshtml", Model.Items)
+                                    </div> 
+                                </div><!-- /.category-product -->
+                            </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-content -->
+
+                        <div class="clearfix filters-container">
+                            <div class="text-right">
+                                <div class="pagination-container">
+                                    <ul class="list-inline list-unstyled">
+                                        @{
+                                            if (Model.CurrentPage > range + 1)
+                                            {
+                                                <li class="prev"><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = 1})"><i class="fa">Trang đầu</i></a></li>
+                                            }
+
+                                            current = (int)Model.CurrentPage - range;
+                                            if (current <= 0)
+                                            {
+                                                current = 1;
+                                            }
+
+                                            for (i = current; i <= Model.CurrentPage + range && i <= Model.TotalPages; i++)
+                                            {
+                                                if (i == Model.CurrentPage)
+                                                {
+                                                    <li class="active"><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = i})">@i</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = i})">@i</a></li>
+                                                }
+                                            }
+
+                                            if (Model.CurrentPage < Model.TotalPages - range)
+                                            {
+                                                <li class="next"><a href="@Url.Action("Index","Category", new {id = ChiTiet.ID, page = Model.TotalPages})"><i class="fa">Trang cuối</i></a></li>
+                                            }
+                                        }
+                                    </ul><!-- /.list-inline -->
+                                </div><!-- /.pagination-container -->
+                            </div><!-- /.text-right -->
+                        </div><!-- /.filters-container -->
+                    </div><!-- /.search-result-container -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+            @Html.Action("PartialBrands","Home")
+            <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
+        </div><!-- /.container -->
+    </div><!-- /.container -->
+</div><!-- /.body-content -->

@@ -1,0 +1,49 @@
+﻿@model ShopConnection.NHASANXUAT
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="progressbar-heading grids-heading">
+    <h2>Sửa nhà sản xuất</h2>
+</div>
+
+<div class="panel panel-widget forms-panel col-sm-8" style="float:none;margin:auto;">
+    <div class="forms">
+        <div class="form-grids widget-shadow" data-example-id="basic-forms">
+            <div class="form-title">
+                <h4>Thông tin :</h4>
+            </div>
+            <div class="form-body">
+                @using (Html.BeginForm("Edit", "ProducerMng", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Ten, "Tên:")
+                        @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ThongTin, "Thông tin:")
+                        <textarea name="ThongTin" rows="8" class="form-control">@(Model.ThongTin ?? "")</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control" for="Logo">Logo:</label>
+                        <input type="file" name="imgLogo" class="img-upload" accept="image/*" />
+                        <input type="hidden" value="@Model.Logo" />
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Khoa, "Khoá:")
+                        @Html.EditorFor(model => model.Khoa)
+                    </div>
+
+                    <button type="submit" class="btn btn-default w3ls-button">Sửa</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

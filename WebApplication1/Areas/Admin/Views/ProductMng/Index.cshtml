@@ -1,0 +1,136 @@
+﻿@model PetaPoco.Page<dynamic>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var ds = Model.Items;
+    int range = 3;
+    int current = 0, i = 0 ;
+    WebGrid grid = new WebGrid(source: ds, rowsPerPage: 50);
+}
+
+<div class="progressbar-heading grids-heading">
+    <h2>Danh sách sản phẩm</h2>
+</div>
+
+@Html.ActionLink("Thêm sản phẩm", "Add", "ProductMng")
+
+<div class="panel panel-widget forms-panel col-sm-12 col-md-12" style="float:none;margin:auto;">
+    <div class="agile-tables">
+        <div class="w3l-table-info">
+            <table id="table-breakpoint">
+                <thead>
+                    <tr>
+                        <th>Ảnh</th>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Giá</th>
+                        <th>Số lượng tồn</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ds)
+                    {
+                        <tr>
+                            <td><a class='product-detail-box' href='#product@(item.ID)-detail'><img class="img-responsive" src='/Content/images/products/@(item.HinhAnh)' title='Click for quick information' alt='@(item.Ten)' width="150"></a></td>
+                            <td>@item.ID</td>
+                            <td>@item.Ten</td>
+                            <td>@item.Gia.ToString("N0")</td>
+                            <td>@item.SoLuongTon</td>
+                            <td><a href='@Url.Action("Edit", "ProductMng", new { id = item.ID })'>Sửa</a> | <a href='@Url.Action("Index", "Product", new { area="", id = item.ID })'>Chi tiết</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <ul class="pagination">
+            @{
+                if (Model.CurrentPage > range + 1)
+                {
+                    <li class="prev"><a href="@Url.Action("Index","ProductMng", new {page = 1})"><i class="fa">Trang đầu</i></a></li>
+                }
+
+                current = (int)Model.CurrentPage - range;
+                if (current <= 0)
+                {
+                    current = 1;
+                }
+
+                for (i = current; i <= Model.CurrentPage + range && i <= Model.TotalPages; i++)
+                {
+                    if (i == Model.CurrentPage)
+                    {
+                        <li class="active"><a href="@Url.Action("Index", "ProductMng", new { page = i })">@i</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("Index", "ProductMng", new { page = i })">@i</a></li>
+                    }
+                }
+
+                if (Model.CurrentPage < Model.TotalPages - range)
+                {
+                    <li class="next"><a href="@Url.Action("Index", "ProductMng", new {page = Model.TotalPages })"><i class="fa">Trang cuối</i></a></li>
+                }
+            }
+        </ul><!-- /.list-inline -->
+    </div>
+</div>
+
+
+@foreach (var item in ds)
+{
+    <div style="display:none">
+        <div id="product@(item.ID)-detail" class="product-detail-box">
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    <img class="img-responsive" alt="@item.Ten" src="/Content/images/products/@(item.HinhAnh)">
+                </div>
+                <div class="col-sm-12 col-md-7">
+                    <h3>Chi tiết</h3>
+                    <ul>
+                        <li>Mã: @item.ID</li>
+                        <li>Tên: @item.Ten</li>
+                        <li>Giá: @item.Gia.ToString("N0")đ</li>
+                        <li>Khuyến mãi: @(item.KhuyenMai)%</li>
+                        <li>Loại: @item.TenLoai</li>
+                        <li>Nhà sản xuất: @item.TenNSX</li>
+                        <li>Bảo hành: @item.SoThangBaoHanh tháng</li>
+                        <li>Số lượng tồn: @item.SoLuongTon cái</li>
+                        <li>Lượt xem: @item.LuotXem</li>
+                        <li>Lượt bình chọn: @item.LuotBinhChon</li>
+                        <li>Lượt bình luận: @item.LuotBinhLuan</li>
+                        <li>Lượt mua: @item.LuotMua</li>
+                        <li>Số sao: @item.SoSao</li>
+                        <li>Sản phẩm HOT: @(item.LaSanPhamHot ? "Y" : "N")</li>
+                        <li>Sản phẩm mới: @(item.LaSanPhamMoi ? "Y" : "N")</li>
+                        <li>Khoá: @(item.Khoa ? "Y" : "N")</li>
+                        <li>Lần cập nhật cuối: @item.NgayCapNhat</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>$(document).ready(function () {
+    $(document).ready(function () {
+        $("a.product-detail-box").fancybox({
+            'transitionIn': 'elastic',
+            'transitionOut': 'elastic',
+            'speedIn': 600,
+            'speedOut': 200,
+            'overlayShow': false
+        });
+
+        $('.product-detail-box table').attr('class', 'table');
+
+        $('#table-breakpoint').basictable({
+            breakpoint: 768,
+        });
+    });
+});</script>

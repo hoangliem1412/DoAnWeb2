@@ -1,0 +1,115 @@
+﻿@model ShopConnection.SANPHAM
+
+@{
+    ViewBag.Title = "Thêm sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="progressbar-heading grids-heading">
+    <h2>Thêm sản phẩm</h2>
+</div>
+
+<div class="panel panel-widget forms-panel col-sm-8" style="float:none;margin:auto;">
+    <div class="forms">
+        <div class="form-grids widget-shadow" data-example-id="basic-forms">
+            <div class="form-title">
+                <h4>Thông tin :</h4>
+            </div>
+            <div class="form-body">
+                @using (Html.BeginForm("Add", "ProductMng", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Ten, "Tên:")
+                        @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.Gia, "Giá bán:")
+                            @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.KhuyenMai, "Khuyến mãi (%):")
+                            @Html.EditorFor(model => model.KhuyenMai, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.Loai, "Thuộc loại:")
+                            @Html.DropDownList("Loai", null, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.NhaSX, "Nhà sản xuất:")
+                            @Html.DropDownList("NhaSX", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MoTa, "Mô tả:")
+                        <textarea name="Mota" rows="8" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ThongTinThem, "Cấu hình:")
+                        <textarea name="ThongTinThem" id="ThongTinThem"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.SoThangBaoHanh, "Số tháng bảo hành:")
+                            @Html.EditorFor(model => model.SoThangBaoHanh, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6">
+                            @Html.LabelFor(model => model.SoLuongTon, "Số lượng tồn:")
+                            @Html.EditorFor(model => model.SoLuongTon, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control" for="HinhAnhChinh">Hình ảnh chính:</label>
+                        <input type="file" name="HinhAnhChinh" class="img-upload" accept="image/*" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control" for="HinhAnhPhu">Hình ảnh phụ:</label>
+                        <input type="file" name="HinhAnhPhu" class="img-upload" accept="image/*" multiple />
+                    </div>
+
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="LaSanPhamMoi" value="true"> Sản phẩm mới </label>
+                        <input type="hidden" value="false" name="LaSanPhamMoi" />
+                    </div>
+
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="LaSanPhamHot" value="true"> Sản phẩm nổi bật </label>
+                        <input type="hidden" value="false" name="LaSanPhamHot" />
+                    </div>
+
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="Khoa" value="true"> Khoá sản phẩm </label>
+                        <input type="hidden" value="false" name="Khoa" />
+                    </div>
+
+                    <button type="submit" class="btn btn-default w3ls-button">Thêm</button>
+                }
+            </div>
+            <table class="editpanel">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Content/plugins/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('ThongTinThem');
+
+</script>

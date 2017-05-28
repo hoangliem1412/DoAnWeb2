@@ -1,0 +1,107 @@
+﻿@model List<ShopConnection.LOAISANPHAM>
+@{
+    var parent = Model.Where(lsp => lsp.Parent == null).ToList();
+    IEnumerable<ShopConnection.LOAISANPHAM> childs;
+}
+
+<div class="header-nav animate-dropdown">
+    <div class="container">
+        <div class="yamm navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="nav-bg-class">
+                <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
+                    <div class="nav-outer">
+                        <ul class="nav navbar-nav">
+                            <li class="active dropdown">
+                                <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                            </li>
+                            <li class="dropdown yamm">
+                                <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">HOT</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="yamm-content">
+                                            <ul class="links">
+                                                @foreach (var item in parent)
+                                                {
+                                                    <li><a href="@Url.Action("Index", "Category", new { id = item.ID, lasanphamhot = 1, testing = "yes" })">@item.Ten</a></li>
+                                                }
+                                            </ul>
+                                        </div><!-- /.yamm-content -->
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown yamm">
+                                <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Mới</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="yamm-content">
+                                            <ul class="links">
+                                                @foreach (var item in parent)
+                                                {
+                                                    <li><a href="@Url.Action("Index", "Category", new { id = item.ID, lasanphammoi = 1 })">@item.Ten</a></li>
+                                                }
+                                            </ul>
+                                        </div><!-- /.yamm-content -->
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown yamm">
+                                <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Khuyến mãi</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="yamm-content">
+                                            <ul class="links">
+                                                @foreach (var item in parent)
+                                                {
+                                                    <li><a href="@Url.Action("Index", "Category", new { id = item.ID, khuyenmai = 1 })">@item.Ten</a></li>
+                                                }
+                                            </ul>
+                                        </div><!-- /.yamm-content -->
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown yamm">
+                                <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Tất cả</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="yamm-content">
+                                            <div class="row">
+                                                <div class='col-sm-12 col-md-12'>
+                                                    @foreach (var item in parent)
+                                                    {
+                                                        childs = Model.Where(lsp => lsp.Parent == item.ID);
+                                                        <div class="col-xs-12 col-sm-12 col-md-4" style="display:block;">
+                                                            <h2 class="title">@item.Ten</h2>
+                                                            <ul class="links">
+                                                                @foreach (var child in childs)
+                                                                {
+                                                                    <li><a href="@Url.Action("Index", "Category", new { id = child.ID })">@child.Ten</a></li>
+                                                                }
+                                                                <li><a href="@Url.Action("Index", "Category", new { id = item.ID })">Tất cả</a></li>
+                                                            </ul>
+                                                        </div><!-- /.col -->
+                                                    }
+                                                </div>
+                                            </div><!-- /.row -->
+                                        </div><!-- /.yamm-content -->
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="contact.html">Liên hệ</a>
+                            </li>
+                        </ul><!-- /.navbar-nav -->
+                        <div class="clearfix"></div>
+                    </div><!-- /.nav-outer -->
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.nav-bg-class -->
+        </div><!-- /.navbar-default -->
+    </div><!-- /.container-class -->
+</div><!-- /.header-nav -->

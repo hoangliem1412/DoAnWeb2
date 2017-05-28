@@ -1,0 +1,363 @@
+﻿@model dynamic
+@{
+    
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+    var DSKM = ViewBag.DSKM as IEnumerable<ShopConnection.SANPHAM>;
+    var CungLoai = ViewBag.CungLoai as IEnumerable<ShopConnection.SANPHAM>;
+    var HinhAnh = ViewBag.HinhAnh as IEnumerable<ShopConnection.HINHANHSP>;
+    var BinhLuan = ViewBag.BinhLuan as IEnumerable<dynamic>;
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline list-unstyled">
+                <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                <li><a href="@Url.Action("Index", "Category", new { id = Model.Loai })">@Model.TenLoai</a></li>
+                <li class='active'>@Model.Ten</li>
+            </ul>
+        </div><!-- /.breadcrumb-inner -->
+    </div><!-- /.container -->
+</div><!-- /.breadcrumb -->
+
+<div class="body-content outer-top-xs">
+    <div class='container'>
+        <div class="homepage-container">
+            <div class='row single-product outer-bottom-sm '>
+                <div class='col-md-3 sidebar'>
+                    <div class="sidebar-module-container">
+                        
+                        <!-- ============================================== RELATED PRODUCTS ============================================== -->
+                        <div class="sidebar-widget hot-deals wow fadeInUp">
+                            <h3 class="section-title">Khuyến mãi</h3>
+                            <div class="owl-carousel related-product sidebar-carousel custom-carousel owl-theme outer-top-xs">
+                            @foreach (var item in DSKM)
+                            {
+                                <div class="item">
+                                    <div class="products">
+                                        <div class="hot-deal-wrapper">
+                                            <div class="image">
+                                                <img class="img-responsive" src="/Content/images/products/@item.HinhAnh" alt="">
+                                            </div>
+                                        </div><!-- /.hot-deal-wrapper -->
+                                        <div class="product-info text-left m-t-20">
+                                            <h3 class="name"><a href="@Url.Action("Index","Product",new {id=item.ID})">@item.Ten</a></h3>
+                                            <div class="rateit" data-rateit-value="@item.SoSao" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                                            <div class="product-price">
+                                                <span class="price">
+                                                    @((item.Gia * (1 - item.KhuyenMai / 100.0)).ToString("N0"))đ
+                                                </span>
+                                                <span class="price-before-discount">@(item.Gia.ToString("N0"))đ</span>
+                                            </div><!-- /.product-price -->
+                                        </div><!-- /.product-info -->
+                                        <div class="action"><a class="lnk btn btn-primary" href="#">Thêm</a></div>
+                                    </div>
+                                </div>
+                            }
+                            </div><!-- /.sidebar-widget -->
+                        </div>
+                        <!-- ============================================== RELATED PRODUCTS: END ============================================== -->						<!-- ============================================== COLOR============================================== -->
+                        
+                        <div class="sidebar-widget  wow fadeInUp outer-top-vs ">
+                            <div id="advertisement" class="advertisement">
+                                <div class="item bg-color">
+                                    <div class="container-fluid">
+                                        <div class="caption vertical-top text-left">
+                                            <div class="big-text">
+                                                Save<span class="big">50%</span>
+                                            </div>
+
+                                            <div class="excerpt">
+                                                on selected items
+                                            </div>
+                                        </div><!-- /.caption -->
+                                    </div><!-- /.container-fluid -->
+                                </div><!-- /.item -->
+
+                                <div class="item" style="background-image: url('/Content/images/advertisement/1.jpg');">
+                                
+                                </div><!-- /.item -->
+
+                                <div class="item bg-color">
+                                    <div class="container-fluid">
+                                        <div class="caption vertical-top text-left">
+                                            <div class="big-text">
+                                                Save<span class="big">50%</span>
+                                            </div>
+
+                                            <div class="excerpt fadeInDown-2">
+                                                on selected items
+                                            </div>
+                                        </div><!-- /.caption -->
+                                    </div><!-- /.container-fluid -->
+                                </div><!-- /.item -->
+                            </div><!-- /.owl-carousel -->
+                        </div>
+
+                        <!-- ============================================== COLOR: END ============================================== -->
+                    </div>
+                </div><!-- /.sidebar -->
+
+                <div class='col-md-9'>
+                    <div class="row  wow fadeInUp">
+                        <div class="col-xs-12 col-sm-6 col-md-7 gallery-holder">
+                            <div class="product-item-holder size-big single-product-gallery small-gallery">
+                                <div id="owl-single-product">
+                                    <div class="single-product-gallery-item" id="slide1">
+                                        <a data-lightbox="image-1" data-title="Gallery" href="/Content/images/products/@(Model.HinhAnh)">
+                                            <img class="img-responsive" alt="" src="/Content/images/blank.gif" data-echo="/Content/images/products/@(Model.HinhAnh)" />
+                                        </a>
+                                    </div><!-- /.single-product-gallery-item -->
+                                    @{
+                                        int i = 2;
+                                        foreach (var anh in HinhAnh)
+                                        {
+                                            <div class="single-product-gallery-item" id="slide@i">
+                                                <a data-lightbox="image-1" data-title="Gallery" href="/Content/images/products/@(anh.Ten)">
+                                                    <img class="img-responsive" alt="" src="/Content/images/blank.gif" data-echo="/Content/images/products/@(anh.Ten)" />
+                                                </a>
+                                            </div><!-- /.single-product-gallery-item -->
+                                            i++;
+                                        }
+                                    }
+                                </div><!-- /.single-product-slider -->
+
+                                <div class="single-product-gallery-thumbs second-gallery-thumb gallery-thumbs">
+                                    <div id="owl-single-product2-thumbnails">
+                                        <div class="item">
+                                            <a class="horizontal-thumb active" data-target="#owl-single-product" data-slide="0" href="#slide1">
+                                                <img class="img-responsive" width="85" alt="" src="/Content/images/blank.gif" data-echo="/Content/images/products/@(Model.HinhAnh)" />
+                                            </a>
+                                        </div>
+                                        @{
+                                            int j = 1;
+                                            foreach (var anh in HinhAnh)
+                                            {
+                                                <div class="item">
+                                                    <a class="horizontal-thumb active" data-target="#owl-single-product" data-slide="@j" href="#slide@(j+1)">
+                                                        <img class="img-responsive" width="85" alt="" src="/Content/images/blank.gif" data-echo="/Content/images/products/@(anh.Ten)" />
+                                                    </a>
+                                                </div>
+                                                j++;
+                                            }
+                                        }
+                                    </div><!-- /.gallery-thumbs -->
+                                </div><!-- /.single-product-gallery -->
+                            </div><!-- /.gallery-holder -->
+                        </div>
+
+                        <div class='col-sm-6 col-md-5 product-info-block'>
+                            <div class="product-info">
+                                <h1 class="name">@Model.Ten</h1>
+
+                                <div class="rating-reviews m-t-20">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="rateit" data-rateit-value="@Model.SoSao" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="reviews">
+                                                <a href="#" class="lnk">(@(Model.LuotBinhLuan) đánh giá)</a>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.row -->
+                                </div><!-- /.rating-reviews -->
+                                <div class="stock-container info-container m-t-10">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="stock-box">
+                                                <span class="label">Tình trạng :</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="stock-box">
+                                                <span class="value">@(Model.SoLuongTon > 10 ? "Còn hàng" : (Model.SoLuongTon > 5 ? "Sắp hết hàng" : "Hết hàng"))</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.row -->
+                                </div><!-- /.stock-container -->
+
+                                <div class="description-container m-t-20">
+                                    @Model.MoTa
+                                </div><!-- /.description-container -->
+
+                            <!--
+                                <div class="attributes-list outer-top-vs">
+                                    <fieldset class="attribute_fieldset">
+                                        <div class="row">
+                                            <label for="group_2" class="col-sm-2 attribute_label attribute-key">Màu&nbsp;</label>
+                                            <div class="col-sm-10 attribute_list">
+                                                <select class="form-control selectpicker attribute_select no-print" id="group_2" name="group_1">
+                                                    <option title="Red" selected="selected" value="1">Red</option>
+                                                    <option title="Blue" value="2">Blue</option>
+                                                    <option title="Orange" value="3">Orange</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            -->
+                                <div class="row outer-top-vs">
+                                    <div class="col-sm-2 col-lg-2 col-md-4">
+                                        <span class="label">Số lượng :</span>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3 col-md-4">
+                                        <input type="text" value="1" class="txt txt-qty">
+                                    </div>
+                                    <div class="cart col-md-12 col-lg-6 clearfix animate-effect">
+                                        <div class="action">
+                                            <button type="button" class="btn btn-primary">Thêm</button>
+                                            <button type="button" class="left btn btn-primary"><i class="icon fa fa-heart"></i></button>
+                                            <button type="button" class="left btn btn-primary"><i class="fa fa-retweet"></i></button>
+                                        </div><!-- /.action -->
+                                    </div>
+                                </div>
+
+                                <div class="row product-social-link outer-top-vs">
+                                    <div class="col-md-3 col-sm-3">
+                                        <span class="label">Chia sẻ </span>
+                                    </div>
+                                    <div class=" col-md-9 col-sm-9 social-icons">
+                                        <ul class="list-inline">
+                                            <li><a href="http://facebook.com/transvelo" class="fa fa-facebook"></a></li>
+                                            <li><a href="#" class="fa fa-twitter"></a></li>
+                                            <li><a href="#" class="fa fa-linkedin"></a></li>
+                                            <li><a href="#" class="fa fa-rss"></a></li>
+                                            <li><a href="#" class="fa fa-pinterest"></a></li>
+                                        </ul><!-- /.social-icons -->
+                                    </div>
+                                </div>
+                            </div><!-- /.product-info -->
+                        </div><!-- /.col-sm-5 -->
+                    </div><!-- /.row -->
+
+                    <div class="product-tabs outer-top-smal  wow fadeInUp">
+
+                        <ul id="product-tabs" class="nav nav-tabs nav-tab-cell-detail">
+                            <li class="active"><a data-toggle="tab" href="#description">THÔNG SỐ KỸ THUẬT</a></li>
+                            <li><a data-toggle="tab" href="#review">ĐÁNH GIÁ</a></li>
+                            <li><a data-toggle="tab" href="#tags">TAGS</a></li>
+                        </ul><!-- /.nav-tabs #product-tabs -->
+
+                        <div class="tab-content outer-top-xs">
+                            <div id="description" class="tab-pane in active">
+                                <div class="product-tab">
+                                    @Html.Raw(Model.ThongTinThem)
+                                </div>
+                            </div><!-- /.tab-pane -->
+
+                            <div id="review" class="tab-pane">
+                                <div class="product-tab">
+                                    <div class="product-reviews">
+                                        <h4 class="title">Đánh giá</h4>
+                                        @if (BinhLuan.Count() == 0)
+                                        {
+                                            <div class="reviews">
+                                                <div class="review">
+                                                    <div class="text">Chưa có lượt đánh giá nào.</div>
+                                                </div>
+                                            </div><!-- /.reviews -->
+                                        }
+                                        else
+                                        {
+                                            foreach (var bl in BinhLuan)
+                                            {
+                                                <div class="reviews">
+                                                    <div class="review">
+                                                        <div class="author m-t-15"><i class="fa fa-pencil-square-o"></i><span class="name">@bl.HoTen</span><span style="color:silver;"> @bl.NgayDang.ToString()</span></div>
+                                                        <div class="text">@bl.NoiDung</div>
+                                                    </div>
+                                                </div><!-- /.reviews -->
+                                            }
+                                        }
+                                    </div><!-- /.product-reviews -->
+
+                                    <div class="product-add-review">
+                                        <h4 class="title">Đánh giá của bạn</h4>
+                                        <div class="review-table">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>1 sao</th>
+                                                            <th>2 sao</th>
+                                                            <th>3 sao</th>
+                                                            <th>4 sao</th>
+                                                            <th>5 sao</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input type="radio" name="quality" class="radio" value="1"></td>
+                                                            <td><input type="radio" name="quality" class="radio" value="2"></td>
+                                                            <td><input type="radio" name="quality" class="radio" value="3"></td>
+                                                            <td><input type="radio" name="quality" class="radio" value="4"></td>
+                                                            <td><input type="radio" name="quality" class="radio" value="5"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table><!-- /.table .table-bordered -->
+                                            </div><!-- /.table-responsive -->
+                                        </div><!-- /.review-table -->
+
+                                        <div class="review-form">
+                                            <div class="form-container">
+                                                <form role="form" class="cnt-form">
+                                                        <div>
+                                                            <div class="form-group">
+                                                                <label for="exampleInputReview">Nội dung <span class="astk">*</span></label>
+                                                                <textarea class="form-control txt txt-review" id="exampleInputReview" rows="4" placeholder=""></textarea>
+                                                            </div><!-- /.form-group -->
+                                                        </div>
+                                                    <div class="action text-right">
+                                                        <button class="btn btn-primary btn-upper">Đăng</button>
+                                                    </div><!-- /.action -->
+                                                </form><!-- /.cnt-form -->
+                                            </div><!-- /.form-container -->
+                                        </div><!-- /.review-form -->
+                                    </div><!-- /.product-add-review -->
+                                </div><!-- /.product-tab -->
+                            </div><!-- /.tab-pane -->
+
+                            <div id="tags" class="tab-pane">
+                                <div class="product-tag">
+                                    <h4 class="title">Tags</h4>
+                                    <form role="form" class="form-inline form-cnt">
+                                        <div class="form-container">
+                                            <div class="form-group">
+                                                <label for="exampleInputTag">Thêm tag của bạn: </label>
+                                                <input type="email" id="exampleInputTag" class="form-control txt">
+
+                                            </div>
+                                            <button class="btn btn-upper btn-primary" type="submit">THÊM TAG</button>
+                                        </div><!-- /.form-container -->
+                                    </form><!-- /.form-cnt -->
+                                    <form role="form" class="form-inline form-cnt">
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <span class="text col-md-offset-3">Use spaces to separate tags. Use single quotes (') for phrases.</span>
+                                        </div>
+                                    </form><!-- /.form-cnt -->
+                                </div><!-- /.product-tab -->
+                            </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-content -->
+                    </div><!-- /.product-tabs -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <!-- ============================================== FEATURED PRODUCT ============================================== -->
+            <section class="section featured-product outer-top-small wow fadeInUp">
+                <h3 class="section-title">Có thể bạn muốn mua</h3>
+                <div class="owl-carousel home-owl-carousel  custom-carousel owl-theme outer-top-xs">
+                @Html.Partial("~/Views/Shared/PartialProductCarouselM.cshtml", CungLoai)
+                </div><!-- /.home-owl-carousel -->
+            </section><!-- /.section -->
+            <!-- ============================================== FEATURED PRODUCT : END ============================================== -->
+            <div class="clearfix"></div>
+
+            <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+            @Html.Action("PartialBrands", "Home")
+            <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
+        </div><!-- /.homepage-container -->
+    </div><!-- /.container -->
+</div><!-- /.body-content -->

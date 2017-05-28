@@ -1,0 +1,54 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var ds = Model.ToList();
+    WebGrid grid = new WebGrid(source: ds, rowsPerPage: 50);
+}
+
+<div class="progressbar-heading grids-heading">
+    <h2>Danh sách loại sản phẩm</h2>
+</div>
+
+@Html.ActionLink("Thêm loại sản phẩm", "Add", "CategoryMng")
+
+<div class="panel panel-widget forms-panel col-sm-12 col-md-12" style="float:none;margin:auto;">
+    <div class="agile-tables">
+        <div class="w3l-table-info">
+            <table id="table-breakpoint">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Gốc (Tên / ID)</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ds)
+                    {
+                        <tr>
+                            <td>@item.ID</td>
+                            <td>@item.Ten</td>
+                            <td>@item.ParentName / @item.Parent</td>
+                            <td>@(item.Khoa ? "Đang khoá" : "Mở")</td>
+                            <td><a href='@Url.Action("Edit", "CategoryMng", new { id = item.ID })'>Sửa</a> | <a href='@Url.Action("Index", "Category", new { area="", id = item.ID })'>Danh sách sản phẩm</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+        $('.product-detail-box table').attr('class', 'table');
+
+        $('#table-breakpoint').basictable({
+            breakpoint: 768,
+        });
+    });
+});</script>
